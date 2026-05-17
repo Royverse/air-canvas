@@ -3,74 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Air Canvas | Premium Hand-Drawn 3D Art</title>
-  <meta name="description" content="Experience the future of digital art with Air Canvas. Draw in 3D space using only your hands.">
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Air Canvas | Hand-Drawn 3D Art</title>
+  <meta name="description" content="Draw in mid-air with your hands. Air Canvas uses AI hand tracking to let you paint on a digital canvas using only gestures.">
 
   <!-- MediaPipe -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
   <div id="app">
+
+    <!-- ══ HEADER ══════════════════════════════════════════ -->
     <header class="app-header">
       <div class="header-content">
         <div class="logo-area">
           <h1>Air Canvas</h1>
-          <div id="statusPill" class="status-pill initializing">Initializing...</div>
+          <div id="statusPill" class="status-pill initializing">Initializing…</div>
         </div>
-        <p class="instruction hide-mobile">Pinch to draw • Open hand to hover • Five fingers to pause</p>
+        <p class="instruction hide-mobile">Pinch to draw &nbsp;·&nbsp; Open hand to hover &nbsp;·&nbsp; Five fingers to pause</p>
       </div>
-      
+
       <div class="header-actions">
         <div class="tool-group actions">
           <button class="btn icon-btn" id="undoBtn" disabled title="Undo (Ctrl+Z)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
           </button>
           <button class="btn icon-btn" id="redoBtn" disabled title="Redo (Ctrl+Y)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
           </button>
+
           <button class="btn primary" id="saveBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
             <span class="hide-mobile">Save</span>
           </button>
+
           <button class="btn danger" id="clearBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
             <span class="hide-mobile">Delete</span>
           </button>
         </div>
       </div>
     </header>
 
+    <!-- ══ MAIN ══════════════════════════════════════════── -->
     <main class="app-main">
       <div class="main-content">
-        <div class="glass layer-stack" id="canvasWrapper">
+
+        <!-- Canvas Stage -->
+        <div class="layer-stack" id="canvasWrapper">
           <canvas id="baseCanvas" width="800" height="600"></canvas>
           <div id="cursorDot"></div>
         </div>
 
-        <div class="glass toolbar">
+        <!-- Toolbar -->
+        <div class="toolbar">
           <div class="toolbar-scroll">
+
+            <!-- Color Swatches -->
             <div class="tool-group colors">
-              <div class="swatch active" style="background: #3b82f6" data-color="#3b82f6" data-mode="draw"></div>
-              <div class="swatch" style="background: #ef4444" data-color="#ef4444" data-mode="draw"></div>
-              <div class="swatch" style="background: #10b981" data-color="#10b981" data-mode="draw"></div>
-              <div class="swatch" style="background: #f59e0b" data-color="#f59e0b" data-mode="draw"></div>
-              <div class="swatch" style="background: #a78bfa" data-color="#a78bfa" data-mode="draw"></div>
-              <div class="swatch" style="background: #000000" data-color="#000000" data-mode="draw"></div>
+              <div class="swatch active" style="background:#3b82f6" data-color="#3b82f6" data-mode="draw" title="Blue"></div>
+              <div class="swatch" style="background:#ef4444" data-color="#ef4444" data-mode="draw" title="Red"></div>
+              <div class="swatch" style="background:#10b981" data-color="#10b981" data-mode="draw" title="Green"></div>
+              <div class="swatch" style="background:#f59e0b" data-color="#f59e0b" data-mode="draw" title="Amber"></div>
+              <div class="swatch" style="background:#a78bfa" data-color="#a78bfa" data-mode="draw" title="Violet"></div>
+              <div class="swatch" style="background:#1e293b" data-color="#1e293b" data-mode="draw" title="Ink"></div>
+              <div class="swatch" style="background:#C9B59C" data-color="#C9B59C" data-mode="draw" title="Sand"></div>
+
               <div class="divider"></div>
+
+              <!-- Eraser -->
               <div class="swatch eraser" data-color="erase" data-mode="erase" title="Eraser">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m22 21H7"/><path d="m5 11 9 9"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m22 21H7"/><path d="m5 11 9 9"/></svg>
               </div>
             </div>
 
+            <!-- Settings -->
             <div class="tool-group settings">
               <div class="setting-item">
                 <span class="label">Size</span>
@@ -86,11 +97,13 @@
                 </label>
               </div>
             </div>
+
           </div>
         </div>
       </div>
 
-      <aside class="sidebar glass" id="sidebar">
+      <!-- ══ SIDEBAR ════════════════════════════════════════ -->
+      <aside class="sidebar" id="sidebar">
         <div class="tabs-header">
           <button class="tab-btn active" data-tab="monitors">Monitors</button>
           <button class="tab-btn" data-tab="stats">System</button>
@@ -98,6 +111,8 @@
         </div>
 
         <div class="tabs-content">
+
+          <!-- Monitors Tab -->
           <div class="tab-pane active" id="tab-monitors">
             <div class="monitor-card">
               <div class="card-header">
@@ -120,6 +135,7 @@
             </div>
           </div>
 
+          <!-- Stats Tab -->
           <div class="tab-pane" id="tab-stats">
             <div class="stats-grid">
               <div class="stat-item">
@@ -145,16 +161,18 @@
             </div>
           </div>
 
+          <!-- Guide Tab -->
           <div class="tab-pane" id="tab-help">
             <div class="gesture-legend">
               <h3>Gesture Guide</h3>
               <ul>
-                <li><span class="icon">✌️</span> <strong>Hover</strong></li>
-                <li><span class="icon">🤏</span> <strong>Pinch</strong></li>
-                <li><span class="icon">✋</span> <strong>Pause</strong></li>
+                <li><span class="icon">✌️</span> <strong>Hover &mdash; Two fingers up</strong></li>
+                <li><span class="icon">🤏</span> <strong>Pinch &mdash; Draw a stroke</strong></li>
+                <li><span class="icon">✋</span> <strong>Open hand &mdash; Pause</strong></li>
               </ul>
             </div>
           </div>
+
         </div>
       </aside>
     </main>
@@ -162,7 +180,7 @@
 
   <script type="module" src="/src/main.js"></script>
   <script>
-    // Tab switching logic
+    // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const tab = btn.dataset.tab;
