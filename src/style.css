@@ -455,6 +455,28 @@ input[type=range]::-webkit-slider-thumb:active {
   border-radius: var(--r-md);
 }
 
+/* GitHub Link Button */
+a.btn.github-btn {
+  text-decoration: none;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a.btn.github-btn svg {
+  stroke: var(--text-muted);
+  transition: stroke var(--t) var(--ease);
+}
+
+a.btn.github-btn:hover {
+  color: var(--text-primary);
+}
+
+a.btn.github-btn:hover svg {
+  stroke: var(--text-primary);
+}
+
 /* ════════════════════════════════════════════════
    SIDEBAR
    ════════════════════════════════════════════════ */
