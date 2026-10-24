@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Air Canvas | Hand-Drawn 3D Art</title>
   <meta name="description" content="Draw in mid-air with your hands. Air Canvas uses AI hand tracking to let you paint on a digital canvas using only gestures.">
 
@@ -15,6 +15,22 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="./src/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Air Canvas AI",
+    "description": "Draw in mid-air with your hands using AI hand tracking and gesture detection.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "All modern browsers",
+    "author": {
+      "@type": "Person",
+      "name": "Roy Mootsana",
+      "url": "https://roymootsana.art"
+    }
+  }
+  </script>
 </head>
 <body>
   <div id="app">
@@ -31,25 +47,25 @@
 
       <div class="header-actions">
         <div class="tool-group actions">
-          <button class="btn icon-btn" id="undoBtn" disabled title="Undo (Ctrl+Z)">
+          <button class="btn icon-btn" id="undoBtn" disabled title="Undo (Ctrl+Z)" aria-label="Undo canvas action">
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
           </button>
-          <button class="btn icon-btn" id="redoBtn" disabled title="Redo (Ctrl+Y)">
+          <button class="btn icon-btn" id="redoBtn" disabled title="Redo (Ctrl+Y)" aria-label="Redo canvas action">
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
           </button>
 
-          <button class="btn primary" id="saveBtn">
+          <button class="btn primary" id="saveBtn" aria-label="Save canvas drawing as PNG">
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
             <span class="hide-mobile">Save</span>
           </button>
 
-          <button class="btn danger" id="clearBtn">
+          <button class="btn danger" id="clearBtn" aria-label="Clear canvas drawing">
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
             <span class="hide-mobile">Delete</span>
           </button>
         </div>
 
-        <a href="https://github.com/Royverse/air-canvas" target="_blank" rel="noopener noreferrer" class="btn icon-btn github-btn" title="View Source on GitHub">
+        <a href="https://github.com/Royverse/air-canvas" target="_blank" rel="noopener noreferrer" class="btn icon-btn github-btn" title="View Source on GitHub" aria-label="View source code on GitHub">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
         </a>
       </div>
@@ -71,20 +87,20 @@
 
             <!-- Color Swatches -->
             <div class="tool-group colors">
-              <div class="swatch active" style="background:#3b82f6" data-color="#3b82f6" data-mode="draw" title="Blue"></div>
-              <div class="swatch" style="background:#ef4444" data-color="#ef4444" data-mode="draw" title="Red"></div>
-              <div class="swatch" style="background:#10b981" data-color="#10b981" data-mode="draw" title="Green"></div>
-              <div class="swatch" style="background:#f59e0b" data-color="#f59e0b" data-mode="draw" title="Amber"></div>
-              <div class="swatch" style="background:#a78bfa" data-color="#a78bfa" data-mode="draw" title="Violet"></div>
-              <div class="swatch" style="background:#1e293b" data-color="#1e293b" data-mode="draw" title="Ink"></div>
-              <div class="swatch" style="background:#C9B59C" data-color="#C9B59C" data-mode="draw" title="Sand"></div>
+              <button type="button" class="swatch active" style="background:#3b82f6" data-color="#3b82f6" data-mode="draw" title="Blue" aria-label="Select Blue color"></button>
+              <button type="button" class="swatch" style="background:#ef4444" data-color="#ef4444" data-mode="draw" title="Red" aria-label="Select Red color"></button>
+              <button type="button" class="swatch" style="background:#10b981" data-color="#10b981" data-mode="draw" title="Green" aria-label="Select Green color"></button>
+              <button type="button" class="swatch" style="background:#f59e0b" data-color="#f59e0b" data-mode="draw" title="Amber" aria-label="Select Amber color"></button>
+              <button type="button" class="swatch" style="background:#a78bfa" data-color="#a78bfa" data-mode="draw" title="Violet" aria-label="Select Violet color"></button>
+              <button type="button" class="swatch" style="background:#1e293b" data-color="#1e293b" data-mode="draw" title="Ink" aria-label="Select Ink color"></button>
+              <button type="button" class="swatch" style="background:#C9B59C" data-color="#C9B59C" data-mode="draw" title="Sand" aria-label="Select Sand color"></button>
 
               <div class="divider"></div>
 
               <!-- Eraser -->
-              <div class="swatch eraser" data-color="erase" data-mode="erase" title="Eraser">
+              <button type="button" class="swatch eraser" data-color="erase" data-mode="erase" title="Eraser" aria-label="Eraser tool">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m22 21H7"/><path d="m5 11 9 9"/></svg>
-              </div>
+              </button>
             </div>
 
             <!-- Settings -->

@@ -803,3 +803,28 @@ a.btn.github-btn:hover svg {
 
   .btn span.hide-mobile { display: none; }
 }
+
+/* ── Accessibility & Polish Enhancements ── */
+:focus-visible {
+  outline: 2px solid var(--accent, #7F77DD);
+  outline-offset: 2px;
+}
+
+.swatch:focus-visible {
+  outline: 2px solid var(--accent, #7F77DD);
+  outline-offset: 3px;
+  transform: scale(1.12);
+}
+
+.stat-value, #sizeVal {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
